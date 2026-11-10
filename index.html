@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATS Resume Checker</title>
+<style>
+:root{--ink:#eef2ff;--mu:#9aa5bd;--ac:#4f8cff;--ac2:#2f6df0;--bd:rgba(255,255,255,.1);--ok:#4ade80;--wn:#fbbf24;--bad:#ff6b6b;--glass:linear-gradient(180deg,rgba(26,31,44,.82),rgba(9,11,17,.92))}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);color-scheme:dark;font:16px/1.55 "Segoe UI Variable Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#03050b;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 32.4% 15.1%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 82.1% 9.4%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 2px,transparent 2.6px),radial-gradient(circle at 91.0% 21.5%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 1.6px),radial-gradient(circle at 41.8% 24.1%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 2px,transparent 2.6px),radial-gradient(circle at 5.9% 56.5%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 57.7% 39.7%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 55.7% 13.3%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.5px,transparent 2.1px),radial-gradient(circle at 54.1% 57.1%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 2px,transparent 2.6px),radial-gradient(circle at 10.3% 57.1%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 9.7% 71.2%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 2px,transparent 2.6px),radial-gradient(circle at 61.9% 49.6%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 2px,transparent 2.6px),radial-gradient(circle at 77.7% 46.6%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1.5px,transparent 2.1px),radial-gradient(circle at 30.0% 79.4%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 57.4% 52.5%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 28.8% 98.0%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 1.6px),radial-gradient(circle at 16.5% 34.2%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.5px,transparent 2.1px),radial-gradient(circle at 3.9% 66.8%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 2px,transparent 2.6px),radial-gradient(circle at 34.0% 35.0%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.5px,transparent 2.1px),radial-gradient(circle at 6.9% 9.4%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 69.7% 6.5%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 28.5% 38.6%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 94.1% 35.5%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 2px,transparent 2.6px),radial-gradient(circle at 49.4% 21.8%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 73.8% 39.8%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1.5px,transparent 2.1px),radial-gradient(circle at 16.6% 40.2%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 81.9% 86.4%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 98.6% 68.3%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.5px,transparent 2.1px),radial-gradient(circle at 15.1% 17.6%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1px,transparent 1.6px),radial-gradient(circle at 1.2% 83.1%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 28.2% 14.6%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 2px,transparent 2.6px),radial-gradient(circle at 61.0% 31.9%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 45.7% 87.1%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 2px,transparent 2.6px),radial-gradient(circle at 39.8% 39.4%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.5px,transparent 2.1px),radial-gradient(circle at 6.2% 6.7%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 1.6px),radial-gradient(circle at 16.2% 34.0%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 0.0% 15.1%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 61.4% 7.0%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 1.6px),radial-gradient(circle at 14.9% 25.2%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 47.4% 11.5%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1.5px,transparent 2.1px),radial-gradient(circle at 48.0% 31.2%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 75.0% 74.0%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.5px,transparent 2.1px),radial-gradient(circle at 51.6% 20.5%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 2px,transparent 2.6px),radial-gradient(circle at 14.7% 54.3%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 97.9% 86.3%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 90.8% 35.6%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 63.6% 61.3%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1px,transparent 1.6px),radial-gradient(circle at 81.8% 74.0%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1px,transparent 1.6px),radial-gradient(circle at 51.8% 35.6%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 79.0% 47.2%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1px,transparent 1.6px),radial-gradient(circle at 44.7% 93.7%,rgba(255,255,255,0.9) 0,rgba(255,255,255,0.9) 1.2px,transparent 1.7999999999999998px),radial-gradient(circle at 8.1% 10.2%,rgba(255,255,255,0.7) 0,rgba(255,255,255,0.7) 1.5px,transparent 2.1px),radial-gradient(circle at 33.8% 48.3%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 2px,transparent 2.6px),radial-gradient(circle at 47.9% 65.3%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1.6px),radial-gradient(circle at 91.0% 78.2%,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 1.6px),radial-gradient(circle at 88.9% 43.4%,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1.2px,transparent 1.7999999999999998px);animation:twinkle 5s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:-10%;z-index:-1;pointer-events:none;filter:blur(28px);background:radial-gradient(55% 45% at 10% -5%,rgba(70,140,255,.6),transparent 70%),linear-gradient(118deg,transparent 15%,rgba(90,160,255,.26) 20%,transparent 27%);animation:glow 9s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+@keyframes glow{from{opacity:.7;transform:translateX(0)}to{opacity:1;transform:translateX(3%)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes scan{to{top:100%}}
+.box,.nav,.drop,.cards div{background:var(--glass);border:1px solid var(--bd);border-radius:26px;box-shadow:0 0 0 6px rgba(255,255,255,.025),inset 0 1px 0 rgba(255,255,255,.08),0 24px 50px rgba(0,0,0,.45)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:18px auto 0;width:min(1120px,calc(100% - 40px));padding:12px 22px;border-radius:20px}
+.nav b{display:flex;gap:10px;align-items:center;font-size:18px;font-weight:600}.nav svg{width:28px;height:28px}.nav span{color:var(--mu);font-size:14px}
+main{max-width:1120px;margin:0 auto;padding:0 20px 70px}
+.hero{text-align:center;padding:48px 0 20px}.hero>*{animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.hero>:nth-child(2){animation-delay:.1s}.hero>:nth-child(3){animation-delay:.18s}.hero>:nth-child(4){animation-delay:.26s}.hero>:nth-child(5){animation-delay:.34s}.hero>:nth-child(6){animation-delay:.42s}.hero>:nth-child(7){animation-delay:.5s}
+h1{font:600 clamp(36px,6vw,56px)/1.05 "Segoe UI Variable Display","Segoe UI",Roboto,Arial,sans-serif;margin:0;letter-spacing:-.025em}
+.tag{font-size:21px;font-weight:600;color:#8db4ff;margin:8px 0 12px}.lead{max-width:620px;margin:0 auto;color:var(--mu)}
+h2{font:600 20px "Segoe UI",Roboto,Arial,sans-serif;margin:0 0 10px}.small{font-size:14px;color:var(--mu)}
+.drop{position:relative;overflow:hidden;max-width:640px;margin:26px auto 10px;border:2px dashed rgba(79,140,255,.5);padding:30px 20px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.drop:hover{transform:translateY(-3px);box-shadow:0 0 0 6px rgba(79,140,255,.08),0 0 40px rgba(60,120,255,.3),0 24px 50px rgba(0,0,0,.45)}.drop.on{border-color:#8db4ff;background:linear-gradient(180deg,rgba(40,60,110,.7),rgba(9,11,17,.92))}
+.drop svg{width:44px;height:44px;stroke:#8db4ff;fill:none;stroke-width:1.6;animation:bob 3s ease-in-out infinite}.drop p{margin:8px 0 16px}
+.drop.scan::after{content:"";position:absolute;left:0;right:0;top:-60px;height:60px;background:linear-gradient(transparent,rgba(79,140,255,.45),transparent);animation:scan 1s linear infinite}
+.btn{display:inline-block;background:linear-gradient(135deg,#5a9bff,#2f6df0);color:#fff;padding:12px 28px;border-radius:999px;font-weight:600;font-size:16px;font-family:inherit;border:0;cursor:pointer;box-shadow:0 6px 22px rgba(47,109,240,.45);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(47,109,240,.6)}.btn.alt{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--bd);box-shadow:none}.btn.alt:hover{background:rgba(255,255,255,.12)}
+#go{display:inline-flex;align-items:center;gap:18px;background:#05070d;border:1px solid rgba(255,255,255,.16);padding:7px 7px 7px 28px;box-shadow:0 0 0 8px rgba(120,160,255,.12),0 10px 30px rgba(0,0,0,.5)}
+#go::after{content:"\2197";width:42px;height:42px;border-radius:50%;background:#e9eefb;color:#05070d;display:grid;place-items:center;font-size:20px;transition:transform .25s}#go:hover::after{transform:rotate(45deg)}
+.btn:focus-visible,summary:focus-visible,textarea:focus-visible,.drop:focus-visible{outline:3px solid #8db4ff;outline-offset:2px}
+details.jd{max-width:640px;margin:14px auto;text-align:left}details.jd summary{cursor:pointer;color:#8db4ff;font-weight:600;text-align:center}
+textarea{width:100%;min-height:130px;margin-top:10px;border:1px solid var(--bd);border-radius:16px;padding:10px;font:inherit;color:var(--ink);resize:vertical;background:rgba(255,255,255,.05)}
+.opts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center;margin:12px 0 22px}.opts label{font-size:14px;color:var(--mu);display:flex;gap:6px;align-items:center}
+.box{padding:22px;margin-bottom:18px}#res{display:none}#res.go .box{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.stats{display:flex;justify-content:space-around;gap:16px;flex-wrap:wrap;margin-top:28px}.stat{display:flex;gap:12px;align-items:center}
+.stat i{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#5a9bff,#2f6df0);box-shadow:0 0 18px rgba(60,120,255,.5)}
+.stat span{display:block;font-size:13px;color:var(--mu);line-height:1.2}.stat b{font-size:22px}.stat small{color:var(--mu)}
+.rep{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}@media(max-width:860px){.rep{grid-template-columns:1fr}}
+.side{position:sticky;top:12px;background:radial-gradient(420px 260px at 85% -10%,rgba(79,140,255,.45),transparent 65%),linear-gradient(180deg,#141a2a,#080a11);border-color:rgba(120,170,255,.45);box-shadow:0 0 0 6px rgba(120,170,255,.06),0 0 44px rgba(60,120,255,.3),0 24px 50px rgba(0,0,0,.5)}
+@media(max-width:860px){.side{position:static}}
+.score{font:600 68px/1 "Segoe UI Variable Display","Segoe UI",Roboto,Arial,sans-serif}.score small{font-size:22px;color:var(--mu);font-weight:600}
+.cat{margin:12px 0}.cat .hd{display:flex;justify-content:space-between;font-weight:600;font-size:14px}
+.bar{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;border-radius:4px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.chips span{display:inline-block;padding:3px 12px;margin:3px 4px 3px 0;border-radius:999px;font-size:13px;background:rgba(79,140,255,.16);color:#a9c8ff;border:1px solid rgba(79,140,255,.25);animation:pop .4s cubic-bezier(.3,1.4,.5,1) both}
+.chips.miss span{background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.5);color:#ff9d9d}
+ul.tips{margin:6px 0 0;padding-left:20px}ul.tips>li{margin-bottom:12px;animation:rise .5s both}ul.tips ul{margin:4px 0;padding-left:18px}
+.tag.lo,.tag.md{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;margin:0 0 0 6px}.tag.lo{background:rgba(255,107,107,.16);color:#ff9d9d}.tag.md{background:rgba(251,191,36,.16);color:#fcd34d}
+.ex{background:rgba(79,140,255,.1);border:1px solid rgba(79,140,255,.2);border-radius:14px;padding:8px 10px;margin:6px 0 4px;font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.tpl .btn{padding:6px 16px;font-size:14px}
+table.ext{width:100%;border-collapse:collapse;font-size:14px}.ext th{text-align:left;width:150px;vertical-align:top;padding:6px 8px;color:var(--mu);font-weight:600;border-top:1px solid var(--bd)}.ext td{padding:6px 8px;border-top:1px solid var(--bd)}
+.info{margin-top:56px}.info h2.big{font-size:30px;text-align:center;margin-bottom:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.cards div{padding:18px;transition:transform .25s,box-shadow .25s}.cards div:hover{transform:translateY(-4px);box-shadow:0 0 0 6px rgba(79,140,255,.07),0 0 30px rgba(60,120,255,.25),0 24px 50px rgba(0,0,0,.45)}
+.cards b{display:block;color:#9cc0ff;margin-bottom:4px}.cards span{font-size:14px;color:var(--mu)}
+.faq{max-width:760px;margin:28px auto 0}.faq details{border-bottom:1px solid var(--bd);padding:12px 0}.faq summary{cursor:pointer;font-weight:600}.faq p{color:var(--mu);margin:8px 0 0}
+#paper{background:#fff;color:#111;padding:36px 42px;border-radius:10px;min-height:300px;outline:none}
+#paper h1{font:700 26px Georgia,serif;margin:0;letter-spacing:0}#paper h2{font-size:14px;margin:16px 0 4px}#paper p{margin:2px 0}#paper ul{margin:2px 0;padding-left:20px}
+#paper.classic{font:14px/1.45 Georgia,"Times New Roman",serif}#paper.classic h1{text-align:center}#paper.classic .ct{text-align:center}
+#paper.classic h2{border-bottom:1px solid #111;text-transform:uppercase;letter-spacing:.04em}
+#paper.modern{font:14px/1.5 Arial,Helvetica,sans-serif}#paper.modern h1{color:#2f6df0}#paper.modern h2{color:#2f6df0;border-left:4px solid #2f6df0;padding-left:8px}
+#paper.compact{font:12px/1.35 Calibri,Arial,sans-serif;padding:24px 30px}#paper.compact h1{font-size:20px}#paper.compact h2{font-size:12px;background:#eee;padding:2px 6px}
+@media print{body{background:#fff!important}body::before,body::after{display:none}body *{visibility:hidden}#paper,#paper *{visibility:visible}#paper{position:absolute;left:0;top:0;width:100%;border:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body><header class="nav"><b><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7db3ff"/><stop offset="1" stop-color="#2f6df0"/></linearGradient></defs><path d="M12 2l9 5v10l-9 5-9-5V7z" fill="url(#lg)"/><path d="M8.5 12.5l2.4 2.4 4.6-5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>ATS Resume Checker</b><span>Runs on this computer. Nothing is sent online.</span></header>
+<main>
+<section class="hero">
+ <h1>Resume Checker</h1>
+ <p class="tag">Is your resume good enough?</p>
+ <p class="lead">Quick checks of your resume's content, layout and keywords, to estimate how well an applicant tracking system can read it.</p>
+ <div class="drop" id="drop" tabindex="0">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+  <p><b>Drop your resume here</b> or choose a file.<br><span class="small">PDF and DOCX only.</span></p>
+  <label class="btn" for="f">Upload Your Resume</label><input id="f" type="file" accept=".pdf,.docx" hidden>
+  <div class="small" id="fn" style="margin-top:10px"></div>
+ </div>
+ <details class="jd"><summary>Tailor to a job (optional)</summary><textarea id="jd" aria-label="Job description" placeholder="Paste the job description here to check keyword match"></textarea></details>
+ <div class="opts"><button class="btn alt" id="pick" type="button">Choose save folder</button><span class="small" id="fold">No folder chosen. Uploads will not be saved.</span>
+  <label><input type="checkbox" id="stamp"> Add date and time to saved file name</label></div>
+ <button class="btn" id="go" type="button">Check my resume</button> <span class="small" id="msg"></span>
+</section>
+<div id="res">
+ <div class="box stats" id="stats"></div>
+ <div class="rep">
+  <aside class="box side"><div class="small">Readability score</div><div class="score"><span id="sc">0</span><small>/100</small></div><strong id="verdict"></strong><div class="small" id="meta"></div><div id="cats" style="margin-top:12px"></div><hr style="border:0;border-top:1px solid var(--bd);margin:16px 0"><div class="small">Job match score</div><div class="score"><span id="sc2">-</span><small>/100</small></div><div class="small" id="m2"></div><div id="cats2" style="margin-top:12px"></div></aside>
+  <div>
+   <div class="box"><h2>What an ATS would read from your file</h2><p class="small" id="prate"></p><div id="ext"></div></div>
+   <div class="box"><h2>Where you lose points and how to fix it</h2><ul class="tips" id="tips"></ul></div>
+   <div class="box"><h2>Keywords found</h2><div class="chips" id="hit"></div></div>
+   <div class="box"><h2>Keywords missing</h2><div class="chips miss" id="miss"></div></div>
+   <div class="box"><h2>Resume preview and templates</h2><p class="small">Built from your extracted text. Click inside the page to edit, then save as PDF.</p>
+    <div class="row tpl" id="tpl"><button class="btn on" data-t="classic">Classic</button><button class="btn alt" data-t="modern">Modern</button><button class="btn alt" data-t="compact">Compact</button><button class="btn alt" id="pr" style="margin-left:auto">Save as PDF / Print</button></div>
+    <div id="paper" class="classic" contenteditable="true" style="margin-top:12px"></div></div>
+  </div>
+ </div>
+</div>
+<section class="info">
+ <h2 class="big">What this checker looks at</h2>
+ <div class="cards">
+  <div><b>Keyword match</b><span>Skills and terms from the job description that appear in your resume.</span></div>
+  <div><b>Standard sections</b><span>Experience, Education, Skills and Summary under familiar headings.</span></div>
+  <div><b>Contact info</b><span>Name, email and phone that a parser can find.</span></div>
+  <div><b>Parsability</b><span>Readable text, no tables or odd symbols, single column.</span></div>
+  <div><b>Content quality</b><span>Action verbs, measurable results and bullet points.</span></div>
+  <div><b>Length and dates</b><span>Sensible length and one consistent date format.</span></div>
+ </div>
+ <div class="faq">
+  <details><summary>Is this a real ATS score?</summary><p>No. Real systems do not publish a score. This is an estimate from readability and keyword rules, so use it as a guide.</p></details>
+  <details><summary>What is a good score here?</summary><p>75 and above means the resume is readable and well matched. Below 55 means there are clear fixes to make.</p></details>
+  <details><summary>Does it work offline?</summary><p>Yes. After the setup files are saved next to this page, nothing leaves your computer.</p></details>
+ </div>
+</section>
+</main>
+<script src="pdf.min.js"></script><script src="mammoth.browser.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);let dir=null,parsed=null;
+const STOP=new Set("a an and are as at be by for from has have in is it its of on or that the to was were will with you your our we they their this these those not but if can may must should would about into over such than then also etc per using use used work working experience years year ability strong good new well team who what when where which while other more most any all each both able including include related required preferred plus need needs know knowledge must looking responsible responsibilities requirements candidate role job join excellent".split(" "));
+const VERBS="managed led developed created improved reduced increased implemented designed coordinated achieved delivered analyzed supervised trained maintained ensured monitored inspected resolved planned executed established streamlined optimized built launched handled prepared organized conducted performed reviewed negotiated supported generated audited verified".split(" ");
+const HEAD=/^(professional\s+)?(summary|objective|profile|career objective|work experience|experience|employment history|employment|education|academic.*|skills|technical skills|key skills|certifications?|projects|languages|achievements|awards|references|training)\s*:?$/i;
+const stem=w=>w.length>4?w.replace(/(ing|ed|es|s)$/,''):w;
+const words=t=>t.toLowerCase().match(/[a-z][a-z+#.\-]{1,}/g)||[];
+const clean=w=>w.replace(/[.\-]+$/,'');
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+$('pick').onclick=async()=>{if(!window.showDirectoryPicker){$('fold').textContent='Folder saving needs Chrome or Edge.';return}
+ try{dir=await showDirectoryPicker({mode:'readwrite'});$('fold').textContent='Saving uploads to folder: '+dir.name}catch(e){}};
+async function readPdf(buf){if(typeof pdfjsLib==='undefined')throw Error('pdf.min.js not found next to index.html');
+ pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js';
+ const pdf=await pdfjsLib.getDocument({data:buf}).promise,out=[];
+ for(let p=1;p<=pdf.numPages;p++){const tc=await(await pdf.getPage(p)).getTextContent(),rows={};
+  tc.items.forEach(i=>{const y=Math.round(i.transform[5]/3);(rows[y]=rows[y]||[]).push(i)});
+  Object.keys(rows).map(Number).sort((a,b)=>b-a).forEach(y=>out.push(rows[y].sort((a,b)=>a.transform[4]-b.transform[4]).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim()))}
+ return{text:out.filter(Boolean).join('\n'),pages:pdf.numPages,table:false}}
+async function readDocx(buf){if(typeof mammoth==='undefined')throw Error('mammoth.browser.min.js not found next to index.html');
+ const t=await mammoth.extractRawText({arrayBuffer:buf}),h=await mammoth.convertToHtml({arrayBuffer:buf});
+ return{text:t.value.replace(/\n{2,}/g,'\n'),pages:null,table:/<table/i.test(h.value)}}
+async function save(file){if(!dir)return'';let n=file.name;
+ if($('stamp').checked){const d=new Date(),p=x=>String(x).padStart(2,'0'),s=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`,i=n.lastIndexOf('.');n=n.slice(0,i)+'_'+s+n.slice(i)}
+ const w=await(await dir.getFileHandle(n,{create:true})).createWritable();await w.write(file);await w.close();return' Saved as '+n+'.'}
+function parse(text){const lines=text.split('\n').map(s=>s.trim()).filter(Boolean),sec=[{h:'',l:[]}];
+ lines.forEach(l=>{if(HEAD.test(l)&&l.length<40)sec.push({h:l.replace(/:$/,''),l:[]});else sec[sec.length-1].l.push(l)});return{lines,sec}}
+function analyze(r,jd){const T=r.text,L=parsed.lines,H=parsed.sec.map(s=>s.h).join('|'),cats=[],wc=words(T).length,ex=extract();
+ // sections
+ let s=0,st=[];[[/experience|employment/i,5,'Work Experience'],[/education|academic/i,4,'Education'],[/skills/i,4,'Skills'],[/summary|objective|profile/i,2,'Summary']]
+  .forEach(([re,p,n])=>re.test(H)?s+=p:st.push(`Add a standard "${n}" heading.`));
+ cats.push({n:'Standard sections',max:15,got:s,tips:st});
+ // contact
+ const em=/[\w.+-]+@[\w-]+\.[\w.]+/.test(T),ph=/\+?\d[\d\s\-()]{8,}\d/.test(T),nm=L[0]&&/^[A-Za-z.' -]+$/.test(L[0])&&L[0].split(' ').length<=4,ct=[];
+ if(!em)ct.push('No email address found.');if(!ph)ct.push('No phone number found.');if(!nm)ct.push('Put your full name alone on the first line.');
+ cats.push({n:'Contact info',max:10,got:(em?4:0)+(ph?4:0)+(nm?2:0),tips:ct});
+ // parsability
+ const odd=(T.match(/[^\x20-\x7E\n\u2022\u2013\u2014\u2019\u201C\u201D]/g)||[]).length/Math.max(T.length,1),pt=[];let p=0;
+ if(T.length>300)p+=6;else pt.push('Very little text was extracted. If this is a scanned or image resume, an ATS cannot read it. Export a text-based PDF or DOCX.');
+ if(odd<.03)p+=4;else pt.push('Many unusual symbols or broken characters found. Avoid icons, special fonts and graphics.');
+ const avg=L.reduce((a,b)=>a+b.length,0)/Math.max(L.length,1);
+ if(r.table)pt.push('This file contains a table. Many ATS read tables in the wrong order. Use plain paragraphs.');
+ else if(!r.table&&(r.pages===null||avg>=25))p+=5;else pt.push('Lines are very short, which can mean a multi-column layout. Use a single column.');
+ if(r.table)p+=0;cats.push({n:'Parsability',max:15,got:p,tips:pt});
+ // content
+ const set2=new Set(words(T)),vb=VERBS.filter(v=>set2.has(v)||set2.has(v.replace(/ed$/,'e'))||set2.has(v.replace(/d$/,''))).length;
+ const bl=L.filter(l=>/^[•\-–*▪●◦]/.test(l)).length,nu=L.filter(l=>/\d+\s?%|[$৳]\s?\d|\b\d{2,}\s+[a-z]{3,}/i.test(l)).length,ctp=[];let c=0;
+ if(vb>=6)c+=4;else if(vb>=3)c+=2,ctp.push('Use more action verbs at the start of bullets (managed, reduced, improved, inspected).');else ctp.push('Very few action verbs found. Start bullets with verbs like managed, reduced, improved.');
+ if(nu>=4)c+=4;else if(nu>=1)c+=2,ctp.push('Add more numbers to bullets (percentages, quantities, team size).');else ctp.push('No measurable results found. Add numbers, e.g. "Reduced defects by 12%".');
+ if(bl>=5)c+=2;else ctp.push('Use bullet points for job duties so they are easy to scan.');
+ cats.push({n:'Content quality',max:10,got:c,tips:ctp});
+ // length + dates
+ const A=(T.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{4}/gi)||[]).length,B=(T.match(/\b\d{1,2}\/\d{4}\b/g)||[]).length,C=(T.match(/\b(19|20)\d{2}\b/g)||[]).length,lt=[];let d=0;
+ const pg=r.pages||Math.ceil(wc/500);
+ if(wc>=250&&wc<=900&&pg<=2)d+=5;else lt.push(wc<250?'Resume looks too short. Add detail on duties and results.':'Resume looks long. Keep it to 1 page (under 10 years experience) or 2 pages.');
+ if(A+B===0){if(C>0){d+=3;lt.push('Use month and year for dates, e.g. "Jan 2024 – Present".')}else lt.push('No dates found. Add dates for every job and your education.')}
+ else if(A>0&&B>0){d+=2;lt.push('Dates use mixed formats. Pick one, e.g. "Jan 2024".')}else d+=5;
+ cats.push({n:'Length and dates',max:10,got:d,tips:lt});
+ const rt=ex.rate,pr=[];if(rt<.7)pr.push('Many lines were not placed under a recognizable section. Use standard headings such as Work Experience, Education and Skills.');
+ if(!ex.jobs.length)pr.push('No job entries with a date range (for example "Jan 2022 – Present") were detected under Experience.');
+ cats.push({n:'Parse rate',max:10,got:Math.max(0,Math.round(rt*10)-(ex.jobs.length?0:2)),tips:pr});
+ const got=cats.reduce((a,b)=>a+b.got,0),max=cats.reduce((a,b)=>a+b.max,0),m=jd.trim()?matchScore(jd,T):null;
+ return{cats,total:Math.round(got/max*100),m,ex,wc,pg}}
+const SYN=[["qc","quality control"],["qa","quality assurance"],["aql","acceptable quality level"],["tqm","total quality management"],["qms","quality management system"],["hr","human resources"],["kpi","key performance indicator"],["sop","standard operating procedure"],["erp","enterprise resource planning"],["crm","customer relationship management"],["seo","search engine optimization"],["ui","user interface"],["ux","user experience"],["excel","ms excel","microsoft excel"],["word","ms word","microsoft word"],["powerpoint","ms powerpoint","ppt"],["rca","root cause analysis"],["pm","project management","project manager"],["lean","lean manufacturing"]];
+const nz=t=>' '+words(t).map(w=>stem(clean(w))).join(' ')+' ';
+function has(R,k){const v=[k];SYN.forEach(g=>{if(g.includes(k))v.push(...g)});return v.some(x=>R.includes(nz(x)))}
+function terms(jd){const uni={},bi={};
+ jd.toLowerCase().split(/[\n.;:!?•]+/).forEach(seg=>{const ws=(seg.match(/[a-z][a-z+#\-]{1,}/g)||[]).map(clean);
+  ws.forEach((w,i)=>{if((w.length>2||SYN.some(g=>g.includes(w)))&&!STOP.has(w))uni[w]=(uni[w]||0)+1;const n=ws[i+1];
+   if(n&&w.length>2&&n.length>2&&!STOP.has(w)&&!STOP.has(n)){const b=w+' '+n;bi[b]=(bi[b]||0)+1}})});
+ const top=(o,n)=>Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n).map(e=>e[0]),ph=top(bi,10).filter(b=>bi[b]>1),low=jd.toLowerCase();
+ SYN.forEach(g=>g.forEach(x=>{if(x.includes(' ')&&low.includes(x)&&!ph.includes(x))ph.push(x)}));const pw=new Set(ph.join(' ').split(' '));
+ return{ph,un:top(uni,25).filter(w=>!pw.has(w)||uni[w]>1)}}
+function matchScore(jd,T){const R=nz(T),S=parsed.sec,
+ R2=nz(S.filter(x=>/skill|summary|objective|profile/i.test(x.h)).map(x=>x.l.join(' ')).join(' ')+' '+parsed.lines.slice(0,8).join(' ')),
+ t=terms(jd),all=[...t.ph.map(x=>[x,2]),...t.un.map(x=>[x,1])],hit=[],miss=[],weak=[];let got=0,tot=0;
+ all.forEach(([k,w])=>{tot+=w;if(has(R,k)){hit.push(k);if(has(R2,k))got+=w;else{got+=w*.7;weak.push(k)}}else miss.push(k)});
+ const kw=tot?Math.round(got/tot*100):0,tl=(jd.split('\n').map(x=>x.trim()).find(Boolean)||''),tw=words(tl).map(clean).filter(w=>!STOP.has(w));let tp=null;
+ if(tl.split(/\s+/).length<=8&&!/[.!?]$/.test(tl)&&tw.length)tp=Math.round(tw.filter(w=>R.includes(nz(w))).length/tw.length*100);
+ return{kw,tp,tl,hit,miss,weak,n:all.length,pct:tp===null?kw:Math.round(kw*.85+tp*.15)}}
+function extract(){const S=parsed.sec,L=parsed.lines,T=L.join('\n'),sec=re=>S.find(x=>re.test(x.h)),
+ DR=/((jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{4}|\d{1,2}\/\d{4}|\b(19|20)\d{2})\s*(-|–|—|to)\s*(present|current|now|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{4}|\d{1,2}\/\d{4}|(19|20)\d{2})/i,
+ nm=L[0]&&/^[A-Za-z.' -]+$/.test(L[0])&&L[0].split(' ').length<=4?L[0]:'',jobs=[],xp=sec(/experience|employment/i),ed=sec(/education|academic/i),sk=sec(/skills/i);
+ if(xp)xp.l.forEach((l,i)=>{if(DR.test(l))jobs.push((l.length<22&&xp.l[i-1]?xp.l[i-1]+' | ':'')+l)});
+ const rec=S.slice(1).reduce((a,x)=>a+x.l.length,0)+Math.min(S[0].l.length,4);
+ return{name:nm,email:(T.match(/[\w.+-]+@[\w-]+\.[\w.]+/)||[''])[0],phone:(T.match(/\+?\d[\d\s\-()]{8,}\d/)||[''])[0].trim(),links:T.match(/(linkedin\.com|github\.com)\/[^\s|,]+/gi)||[],jobs,edu:ed?ed.l.slice(0,4):[],
+  skills:sk?sk.l.join(', ').split(/[,•|;]+/).map(x=>x.trim()).filter(x=>x.length>1&&x.length<32).slice(0,20):[],rate:Math.min(1,rec/Math.max(L.length,1))}}
+const col=p=>p>=75?'var(--ok)':p>=55?'var(--wn)':'var(--bad)';
+const bar=(n,g,m)=>{const p=g/m,k=p>=.75?'linear-gradient(90deg,#6aa8ff,#2f6df0)':p>=.5?'linear-gradient(90deg,#fbbf24,#f59e0b)':'#ff6b6b';return`<div class="cat"><div class="hd"><span>${n}</span><span>${g}/${m}</span></div><div class="bar"><i data-w="${p*100}" style="width:0;background:${k}"></i></div></div>`};
+const chip=(a,msg)=>a.length?a.map(k=>`<span>${esc(k)}</span>`).join(''):`<span class="small">${msg}</span>`;
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function cnt(el,to,ms=1000){if(RM||!isFinite(to)){el.textContent=to;return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)}
+function animate(a){const e=a.ex,m=a.m,S=[['Words',a.wc,''],['Pages',a.pg,''],['Parse rate',Math.round(e.rate*100),'%'],['Job terms found',m?m.hit.length:'-',m?' / '+m.n:'']];
+ $('stats').innerHTML=S.map(x=>`<div class="stat"><i></i><div><span>${x[0]}</span><b data-n="${x[1]}">${x[1]}</b><small>${x[2]}</small></div></div>`).join('');
+ document.querySelectorAll('#stats b').forEach(b=>{const n=+b.dataset.n;if(!isNaN(n))cnt(b,n,900)});
+ document.querySelectorAll('.bar i[data-w]').forEach((el,i)=>setTimeout(()=>el.style.width=el.dataset.w+'%',RM?0:150+i*70));
+ const R=$('res');R.classList.remove('go');void R.offsetWidth;R.classList.add('go');
+ R.querySelectorAll('.box').forEach((b,i)=>b.style.animationDelay=i*90+'ms');
+ R.querySelectorAll('.chips span').forEach((s,i)=>s.style.animationDelay=450+i*35+'ms');
+ R.querySelectorAll('ul.tips>li').forEach((s,i)=>s.style.animationDelay=500+i*80+'ms')}
+function show(a){const m=a.m,e=a.ex;$('res').style.display='block';
+ cnt($('sc'),a.total);$('sc').style.color=col(a.total);
+ $('verdict').textContent=a.total>=75?'Good. Easy for an ATS to read.':a.total>=55?'Fair. Fix the points below.':'Needs work. Fix the points below.';
+ $('meta').textContent=`${a.wc} words, about ${a.pg} page(s).`;
+ $('cats').innerHTML=a.cats.map(c=>bar(c.n,c.got,c.max)).join('');
+ if(m){cnt($('sc2'),m.pct);$('sc2').style.color=col(m.pct);$('m2').textContent=`${m.hit.length} of ${m.n} job terms found in your resume.`;
+  $('cats2').innerHTML=bar('Keywords',m.kw,100)+(m.tp!==null?bar('Job title',m.tp,100):'')}
+ else{$('sc2').textContent='-';$('sc2').style.color='var(--mu)';$('m2').textContent='Paste a job description to get a match score.';$('cats2').innerHTML=''}
+ $('hit').innerHTML=chip(m?m.hit:[],m?'None found':'Paste a job description to see the keyword match.');
+ $('miss').innerHTML=chip(m?m.miss:[],m?'None. Every job term was found.':'Paste a job description to see the keyword match.');
+ const row=(l,v)=>{v=[].concat(v).filter(Boolean);return`<tr><th>${l}</th><td>${v.length?v.map(esc).join('<br>'):'<span style="color:var(--bad)">Not found</span>'}</td></tr>`};
+ $('prate').textContent=`Parse rate: ${Math.round(e.rate*100)}% of lines were placed under a recognized section or the contact area.`;
+ $('ext').innerHTML='<table class="ext">'+row('Name',e.name)+row('Email',e.email)+row('Phone',e.phone)+row('Links',e.links)+row(`Jobs with dates (${e.jobs.length})`,e.jobs)+row('Education',e.edu)+row('Skills',e.skills.join(', '))+'</table>';
+ const EX={'Standard sections':'Use plain headings: Summary, Work Experience, Education, Skills. If your skills sit under a name like "Core Competencies" or "Technical Skills", rename that heading to "Skills".',
+  'Contact info':'Put these on the first lines. Example: Rahim Uddin | rahim@mail.com | 01700000000 | Dhaka',
+  'Parsability':'Export a text-based PDF from Word or Google Docs. Avoid tables, text boxes, icons, photos and two columns.',
+  'Content quality':'Pattern: action verb + what you did + a number. Example: "Inspected 400+ garments per day to AQL standard and cut re-inspection by 12%."',
+  'Length and dates':'Keep it to 1 or 2 pages and use one date style everywhere, for example "Jan 2022 – Present".',
+  'Parse rate':'Start each part with a standard heading, and give every job a title, company and date range on one line.'};
+ const lost=a.cats.filter(c=>c.got<c.max).sort((x,y)=>(y.max-y.got)-(x.max-x.got)),ul=a=>`<ul>${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`,
+  tg=(low,d)=>`<span class="tag ${low?'lo':'md'}">${low?'Very low':'Can improve'}: -${d} points</span>`;
+ let hh=lost.map(c=>`<li><b>${esc(c.n)}</b> ${tg(c.got/c.max<.5,c.max-c.got)}${ul(c.tips.length?c.tips:['Small loss. Check the items marked "Not found" in the panel above.'])}<div class="ex">${esc(EX[c.n]||'')}</div></li>`).join('');
+ const wk=[];parsed.sec.forEach(x=>{if(/experience|employment|project/i.test(x.h))x.l.forEach(l=>{const b=l.replace(/^[•\-–*▪●◦\uF0B7\uF0A7]\s*/,'');
+  if(b.split(/\s+/).length<6||/\d{4}\s*(-|–|—|to)/i.test(b))return;const f=(b.split(/\s+/)[0]||'').toLowerCase(),
+  v=VERBS.some(z=>f.startsWith(z.slice(0,Math.max(4,z.length-2)))),n=/\d+\s?%|[$৳]\s?\d|\b\d{2,}\b/.test(b);
+  if(!n||!v)wk.push(esc(b.length>110?b.slice(0,110)+'...':b)+' <i class="small">('+[!v?'start with an action verb':'',!n?'add a number or result':''].filter(Boolean).join(', ')+')</i>')})});
+ if(wk.length)hh+=`<li><b>Lines to rewrite</b><ul>${wk.slice(0,6).map(x=>`<li>${x}</li>`).join('')}</ul></li>`;
+ if(m){const mt=[];if(m.miss.length)mt.push('Add these job terms where they honestly apply: '+m.miss.slice(0,8).join(', ')+'.');
+  if(m.weak.length)mt.push('Move these terms into your Skills or Summary so they stand out: '+m.weak.slice(0,6).join(', ')+'.');
+  if(m.tp!==null&&m.tp<60)mt.push(`Your resume does not show the job title "${m.tl}". Use it, or a close match, in your summary or headline if it is true for you.`);
+  if(mt.length)hh+=`<li><b>Job match</b> ${tg(m.pct<50,100-m.pct)}${ul(mt)}</li>`}
+ if(!e.links.length)hh+=`<li><b>Optional</b><ul><li>No LinkedIn or portfolio link found. Adding one helps recruiters check your background.</li></ul></li>`;
+ $('tips').innerHTML=hh||'<li>No major problems found.</li>';
+ let h='';const s=parsed.sec,hd=s[0].l;
+ h+=`<h1>${esc(hd[0]||'Your Name')}</h1><div class="ct">${hd.slice(1).map(x=>`<p>${esc(x)}</p>`).join('')}</div>`;
+ s.slice(1).forEach(x=>{h+=`<h2>${esc(x.h)}</h2>`;let ul=false;x.l.forEach(l=>{const b=/^[•\-–*▪●◦]\s*/.test(l);
+  if(b&&!ul){h+='<ul>';ul=true}if(!b&&ul){h+='</ul>';ul=false}h+=b?`<li>${esc(l.replace(/^[•\-–*▪●◦]\s*/,''))}</li>`:`<p>${esc(l)}</p>`});if(ul)h+='</ul>'});
+ $('paper').innerHTML=h;animate(a);$('res').scrollIntoView({behavior:'smooth'})}
+$('go').onclick=async()=>{const f=$('f').files[0];if(!f){$('msg').textContent='Choose a PDF or DOCX file first.';return}
+ $('msg').textContent='Reading file...';$('drop').classList.add('scan');
+ try{const buf=await f.arrayBuffer(),ext=f.name.split('.').pop().toLowerCase();
+  if(ext!=='pdf'&&ext!=='docx')throw Error('Only PDF and DOCX files are supported.');
+  const r=ext==='pdf'?await readPdf(buf.slice(0)):await readDocx(buf.slice(0));
+  let sv='';try{sv=await save(f)}catch(e){sv=' Could not save to the folder: '+e.message}
+  await new Promise(z=>setTimeout(z,RM?0:900));parsed=parse(r.text);show(analyze(r,$('jd').value));$('msg').textContent='Done.'+sv}
+ catch(e){$('msg').textContent='Error: '+e.message}finally{$('drop').classList.remove('scan')}};
+$('tpl').onclick=e=>{const t=e.target.dataset.t;if(!t)return;$('paper').className=t;[...$('tpl').querySelectorAll('[data-t]')].forEach(b=>{const on=b===e.target;b.classList.toggle('on',on);b.classList.toggle('alt',!on)})};
+$('pr').onclick=()=>window.print();
+const dz=$('drop');['dragover','dragenter'].forEach(e=>dz.addEventListener(e,x=>{x.preventDefault();dz.classList.add('on')}));
+['dragleave','drop'].forEach(e=>dz.addEventListener(e,x=>{x.preventDefault();dz.classList.remove('on')}));
+dz.addEventListener('drop',x=>{if(x.dataTransfer.files[0]){$('f').files=x.dataTransfer.files;$('f').dispatchEvent(new Event('change'))}});
+$('f').addEventListener('change',()=>{const f=$('f').files[0];$('fn').textContent=f?'Selected: '+f.name:''});
+</script></body></html>
